@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ProjetoSemestre">
+                
+    
+    
+    <wb-module deploy-name="SteamList-0.0.1-SNAPSHOT">
+                        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                                
+        
+        
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                                
+        
+        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="ProjetoSemestre"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
+                                
+        
+        
         <property name="java-output-path" value="/ProjetoSemestre/build/classes"/>
+                        
+        
+        <property name="context-root" value="SteamList"/>
+                            
+    
+    
     </wb-module>
+            
+
+
 </project-modules>
