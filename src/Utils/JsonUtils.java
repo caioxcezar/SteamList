@@ -8,6 +8,11 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import Models.Dlc;
+import Models.Jogo;
+
 public class JsonUtils {
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
@@ -27,5 +32,32 @@ public class JsonUtils {
 	    } finally {
 	      is.close();
 	    }
+	  }
+	  
+	  public static Jogo getJogo(int id) {
+		  try {
+			  ObjectMapper mapper = new ObjectMapper();
+			  String js = readJsonFromUrl("https://store.steampowered.com/api/appdetails?appids="+id);
+			  js = js.substring(js.indexOf("{\"type\":"), (js.length() - 2));
+			  js = js.replace("requirements\":[]", "requirements\": { \"minimum\": \"\", \"recommended\": \"\" }");
+			  js = js.replace("[]", "null");
+			  Jogo jg = mapper.readValue(js, Jogo.class);
+			  return jg;
+		  } catch (Exception e) {
+			  return null;
+		}
+	  }
+	  public static Dlc getDlc(int id) {
+		  try {
+			  ObjectMapper mapper = new ObjectMapper();
+			  String ds = readJsonFromUrl("https://store.steampowered.com/api/appdetails?appids="+id);
+			  ds = ds.substring(ds.indexOf("{\"type\":"), (ds.length() - 2));
+			  ds = ds.replace("requirements\":[]", "requirements\": { \"minimum\": \"\", \"recommended\": \"\" }");
+			  ds = ds.replace("[]", "null");
+			  Dlc dlc = mapper.readValue(ds, Dlc.class);
+			  return dlc;
+		  } catch (Exception e) {
+			  return null;
+		}
 	  }
 }

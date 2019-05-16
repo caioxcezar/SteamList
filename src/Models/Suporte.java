@@ -1,15 +1,12 @@
 package Models;
 
-import java.net.URI;
-
 public class Suporte {
-	private URI url;
+	private String url;
 	private String email;
-	
-	public URI getUrl() {
+	public String getUrl() {
 		return url;
 	}
-	public void setUrl(URI url) {
+	public void setUrl(String url) {
 		this.url = url;
 	}
 	public String getEmail() {

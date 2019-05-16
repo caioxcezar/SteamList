@@ -7,16 +7,21 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.tribes.group.Response;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import Models.Dlc;
 import Models.Jogo;
 import Models.Usuario;
 import Utils.JsonUtils;
@@ -72,21 +77,22 @@ public class TesteJson extends HttpServlet {
 //			System.out.println("erro");
 //			e.printStackTrace();
 //		}
-    	byte[] encoded = {};
-		try {
-			encoded = Files.readAllBytes(Paths.get("D:\\Documents\\jogo.json"));
-			ObjectMapper mapper = new ObjectMapper();
-	        String x = new String(encoded, Charset.defaultCharset());
-	        x = x.substring(34, (x.length() - 2));
-	        x = x.replace("requirements\":[]", "requirements\": { \"minimum\": \"\", \"recommended\": \"\" }");
-	        x = x.replace("[]", "null");
-	        System.out.println("json: " + x);
-	        Jogo jg = mapper.readValue(x, Jogo.class);
-	        System.out.println("jogo nome: " + jg.getNome());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	byte[] encoded = {};
+//		try {
+//			encoded = Files.readAllBytes(Paths.get("D:\\Documents\\jogo.json"));
+//			ObjectMapper mapper = new ObjectMapper();
+//	        String x = new String(encoded, Charset.defaultCharset());
+//	        x = x.substring(x.indexOf("{\"type\":"), (x.length() - 2));
+//	        x = x.replace("requirements\":[]", "requirements\": { \"minimum\": \"\", \"recommended\": \"\" }");
+//	        x = x.replace("[]", "null");
+//	        System.out.println("json: " + x);
+//	        Jogo jg = mapper.readValue(x, Jogo.class);
+//	        System.out.println("jogo nome: " + jg.getNome());
+//	        System.out.println("jogo preço: " + jg.getPreco().getPrecoInicial());
+//	        System.out.println("jogo preço inicial formatado: " + jg.getPreco().getInicialFormatado());
+//		} catch (IOException e) {
+//			System.out.println(e.getMessage());
+//		}
     }
 
 	/**
@@ -103,6 +109,10 @@ public class TesteJson extends HttpServlet {
 //		finally {
 //			sessao.close();
 //		}
+    	Jogo x = JsonUtils.getJogo(49520);
+    	Dlc y = JsonUtils.getDlc(213210);
+    	response.getWriter().append((x != null ? "Tipo: " + x.getTipo() : "erro jogo" ));
+    	response.getWriter().append((y != null ? "Tipo: " + y.getTipo() : "erro dlc" ));
 	}
 
 	/**

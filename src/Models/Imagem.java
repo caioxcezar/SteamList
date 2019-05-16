@@ -1,32 +1,30 @@
 package Models;
 
-import java.net.URI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Imagem {
 	@JsonProperty("id")
 	private int id;
 	@JsonProperty("path_thumbnail")
-	private URI miniatura;
+	private String miniatura;
 	@JsonProperty("path_full")
-	private URI imagemCompleta;
-	
+	private String imagemCompleta;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public URI getMiniatura() {
+	public String getMiniatura() {
 		return miniatura;
 	}
-	public void setMiniatura(URI miniatura) {
+	public void setMiniatura(String miniatura) {
 		this.miniatura = miniatura;
 	}
-	public URI getImagemCompleta() {
+	public String getImagemCompleta() {
 		return imagemCompleta;
 	}
-	public void setImagemCompleta(URI imagemCompleta) {
+	public void setImagemCompleta(String imagemCompleta) {
 		this.imagemCompleta = imagemCompleta;
 	}
 }
