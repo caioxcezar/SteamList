@@ -1,0 +1,81 @@
+    body{
+      background-image: url("../IMAGENSPARAEDIÇAO/logo.png");
+      background-repeat: no-repeat;
+      background-size: 45%;
+      background-position: bottom left;
+      background-repeat: no-repeat;
+      background-color: #343a40;
+        
+    }  
+    #formulario{
+      padding-top: 22px;
+        background-color:purple;
+        width: 300px;
+        height: 300px;
+        border-radius:10px;
+        right: 10px;
+        position: absolute;
+        transition: 0.5s;
+        top: -300px;
+        z-index: 2;
+    }   
+ 
+    #formulario::before {
+
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 240px;
+      border-width: 20px 20px 0;
+      border-style: solid;
+      border-color:purple transparent;
+      display: block;
+      width: 0px;
+      transform:rotate(180deg);
+  
+  }
+  .navbar{
+    z-index: 10000;
+  }
+.barra{
+  text-align: center;
+}
+  .bg-colorbarra{
+    align-content: center;
+    background-color: #5d115f;
+
+  }
+  .page-footer {
+    background-color: #5d115f;
+  }
+  .text-promo{
+    
+    color: white;
+  }
+  .card {
+    align-content: flex-end;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  .jumbotron{
+    background-color: whitesmoke; 
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  .carousel-caption{
+  position: absolute;
+  bottom: 20px;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  text-align: center;
+}
+.page-footer{
+
+}
+.nomejogo{
+  text-align: center;
+  font-size: 40px;
+}
+.detalhejogo{
+  text-align: center;
+}

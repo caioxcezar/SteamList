@@ -1,6 +1,5 @@
 package Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class appdetails {
@@ -66,8 +65,8 @@ public class appdetails {
 	private Conquistas conquistas;
 	@JsonProperty("background")
 	private String planoFundo;
-	@JsonIgnore
-	public Object content_descriptors, controller_support, demos, packages;
+//	@JsonIgnore
+//	public Object content_descriptors, controller_support, demos, packages, drm_notice, ext_user_account_notice;
 	public String getTipo() {
 		return tipo;
 	}
@@ -253,29 +252,5 @@ public class appdetails {
 	}
 	public void setPlanoFundo(String planoFundo) {
 		this.planoFundo = planoFundo;
-	}
-	public Object getContent_descriptors() {
-		return content_descriptors;
-	}
-	public void setContent_descriptors(Object content_descriptors) {
-		this.content_descriptors = content_descriptors;
-	}
-	public Object getController_support() {
-		return controller_support;
-	}
-	public void setController_support(Object controller_support) {
-		this.controller_support = controller_support;
-	}
-	public Object getDemos() {
-		return demos;
-	}
-	public void setDemos(Object demos) {
-		this.demos = demos;
-	}
-	public Object getPackages() {
-		return packages;
-	}
-	public void setPackages(Object packages) {
-		this.packages = packages;
 	}
 }

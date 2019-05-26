@@ -109,10 +109,10 @@ public class TesteJson extends HttpServlet {
 //		finally {
 //			sessao.close();
 //		}
-    	Jogo x = JsonUtils.getJogo(49520);
-    	Dlc y = JsonUtils.getDlc(213210);
-    	response.getWriter().append((x != null ? "Tipo: " + x.getTipo() : "erro jogo" ));
-    	response.getWriter().append((y != null ? "Tipo: " + y.getTipo() : "erro dlc" ));
+//    	Jogo x = JsonUtils.getJogo(49520);
+//    	Dlc y = JsonUtils.getDlc(213210);
+//    	response.getWriter().append((x != null ? "Tipo: " + x.getTipo() : "erro jogo" ));
+//    	response.getWriter().append((y != null ? "Tipo: " + y.getTipo() : "erro dlc" ));
 	}
 
 	/**
