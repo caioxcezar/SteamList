@@ -1,4 +1,4 @@
-    body{
+    /* body{
       background-image: url("../IMAGENSPARAEDIÇAO/logo.png");
       background-repeat: no-repeat;
       background-size: 45%;
@@ -7,33 +7,7 @@
       background-color: #343a40;
         
     }  
-    #formulario{
-      padding-top: 22px;
-        background-color:purple;
-        width: 300px;
-        height: 300px;
-        border-radius:10px;
-        right: 10px;
-        position: absolute;
-        transition: 0.5s;
-        top: -300px;
-        z-index: 2;
-    }   
- 
-    #formulario::before {
 
-      content: "";
-      position: absolute;
-      top: -20px;
-      left: 240px;
-      border-width: 20px 20px 0;
-      border-style: solid;
-      border-color:purple transparent;
-      display: block;
-      width: 0px;
-      transform:rotate(180deg);
-  
-  }
   .navbar{
     z-index: 10000;
   }
@@ -78,4 +52,35 @@
 }
 .detalhejogo{
   text-align: center;
+} */
+body {
+	background-color: #121212 !important;
+}
+.bg-dark {
+	background-color: #282828 !important;
+}
+.destaques {
+  margin-top: 60px;
+}
+.destaques .card, .destaques .card-img {
+  border: 0px transparent;
+  border-radius: 0px;
+  background-color: #0007
+}
+.destaques .slick-active {
+/*   border: 2px solid rgb(134, 6, 126); */
+}
+#formLogin{
+  padding-top: 22px;
+  background-color:purple;
+  border:purple solid transparent;
+  width: 300px;
+  height: 300px;
+  border-radius:10px;
+  right: 10px !important;
+  transition: 0.5s;
+  top: -300px;
+  z-index: 2;
+  left: auto !important;
+  right: 15px;
 }
