@@ -7,7 +7,6 @@ public class Requisitos {
 	private String minimo;
 	@JsonProperty("recommended")
 	private String recomendado;
-	
 	public String getMinimo() {
 		return minimo;
 	}

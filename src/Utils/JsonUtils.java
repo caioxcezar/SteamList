@@ -48,6 +48,15 @@ public class JsonUtils {
 		return jg;
 	}
 
+	public static Jogo getJogoOffline(String js) throws IOException {
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		js = js.substring(js.indexOf("{\"type\":"), (js.length() - 2));
+		js = js.replace("requirements\":[]", "requirements\": { \"minimum\": \"\", \"recommended\": \"\" }");
+		js = js.replace("[]", "null");
+		Jogo jg = mapper.readValue(js, Jogo.class);
+		return jg;
+	}
+	
 	public static Dlc getDlc(int id) throws IOException {
 		ObjectMapper mapper = new ObjectMapper()
 				  .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

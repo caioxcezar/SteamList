@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="WEB-INF/templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">#{jogoController.jogo.getNome()}</ui:define>
+	<ui:define name="content">
+		<div class="container-flex">
+			<h:outputText value="#{jogoController.carousel()}" escape="false" />
+			<div class="container card">
+				<div class="row">
+					<div class="col-lg-4 p-2">
+						<img src="#{jogoController.jogo.getImagemCabecalho()}"
+							class="img-fluid rounded"></img>
+					</div>
+					<div class="col-lg-7">
+						<h3>#{jogoController.jogo.getNome()}</h3>
+						#{jogoController.jogo.getPreco().getFinalFormatado()}
+						<p>#{jogoController.jogo.getDescricaoCurta()}</p>
+					</div>
+				</div>
+			</div>
+			<div class="container p-0 mt-2">
+				<div class="row">
+					<div class="col-lg-8">
+						<h:outputText
+							value="#{jogoController.jogo.getDescricaoDetalhada()}"
+							escape="false" />
+					</div>
+					<div class="col-lg-4">
+						<div class="accordion" id="accordionExample">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h2 class="mb-0">
+										<button class="btn btn-link" type="button"
+											data-toggle="collapse" data-target="#collapseOne"
+											aria-expanded="true" aria-controls="collapseOne">
+											Requisitos Windows</button>
+									</h2>
+								</div>
+
+								<div id="collapseOne" class="collapse show"
+									aria-labelledby="headingOne" data-parent="#accordionExample">
+									<div class="card-body">
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosWindows().getRecomendado()}"
+											escape="false" />
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosWindows().getMinimo()}"
+											escape="false" />
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h2 class="mb-0">
+										<button class="btn btn-link collapsed" type="button"
+											data-toggle="collapse" data-target="#collapseTwo"
+											aria-expanded="false" aria-controls="collapseTwo">
+											Requisitos Linux</button>
+									</h2>
+								</div>
+								<div id="collapseTwo" class="collapse"
+									aria-labelledby="headingTwo" data-parent="#accordionExample">
+									<div class="card-body">
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosLinux().getRecomendado()}"
+											escape="false" />
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosLinux().getMinimo()}"
+											escape="false" />
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingThree">
+									<h2 class="mb-0">
+										<button class="btn btn-link collapsed" type="button"
+											data-toggle="collapse" data-target="#collapseThree"
+											aria-expanded="false" aria-controls="collapseThree">
+											Requisitos Mac</button>
+									</h2>
+								</div>
+								<div id="collapseThree" class="collapse"
+									aria-labelledby="headingThree" data-parent="#accordionExample">
+									<div class="card-body">
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosMac().getRecomendado()}"
+											escape="false" />
+										<h:outputText
+											value="#{jogoController.jogo.getRequisitosMac().getMinimo()}"
+											escape="false" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<a href="#{jogoController.jogo.getMetacritic().getUrl()}"> <label>#{jogoController.jogo.getMetacritic().getPontuacao()}</label>
+								<h5>Metacritic</h5>
+							</a>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+			
+			
+		</div>
+
+	</ui:define>
+</ui:composition>

@@ -59,9 +59,23 @@
 	</div>
 	</nav>
 
-	<div id="content" style="margin-top: 60px;">
+	<div id="content" class="mb-2" style="margin-top: 60px;">
 		<ui:insert name="content">
 		</ui:insert>
+	</div>
+	
+	<div id="formLogin" class="container">
+		<div class="d-flex justify-content-center">
+			<form method="post">
+				<h1>Area de Login</h1>
+				<h3>Email:</h3>
+				<input type="text" id="login" class="form-control" name="login" placeholder="Insira seu e-mail..."></input>
+				<h3>Senha:</h3>
+				<input type="password" id="password" class="form-control" name="login" placeholder="insira sua senha..."></input>
+				<input type="submit" class="btn btn-primary m-2" value="Logar"></input>
+				<input type="submit" class="btn btn-primary m-2" value="Cadastrar"></input>
+			</form>
+		</div>
 	</div>
 	
 	<footer class="footer mt-auto py-3 text-center bg-light rounded m-2 text-dark" >

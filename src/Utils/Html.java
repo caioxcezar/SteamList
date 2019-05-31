@@ -9,7 +9,7 @@ public class Html {
 			Jogo j = new Jogo();
 			try {
 				j = JsonUtils.getJogo(id);
-				resultado += "		<div class=\"card mb-3\">\r\n" + 
+				resultado += "	<div class=\"card mb-3\">\r\n" + 
 						"			<div class=\"row no-gutters\">\r\n" + 
 						"				<div class=\"col-md-8\">\r\n" + 
 						"					<img src=\"" + j.getImagemCabecalho() + "\" class=\"card-img\">\r\n" + 
@@ -38,10 +38,10 @@ public class Html {
 				j = JsonUtils.getJogo(id);
 				resultado += "<div class='card mr-2'>"
 						+ "<img class='card-img-top' src='" + j.getImagemCabecalho() + "' alt=''>"
-						+ "<div class='card-body text-dark'>"
+						+ "<div class='card-body'>"
 						+ "<h5 class='card-title'>" + j.getNome() + "</h5>"
 						+ "<div class='card-text'>Preço:" + j.getPreco().getFinalFormatado() + "</div>"
-						+ "<a href='/busca.jsp?appid=" + id + "' class='btn btn-primary'>Comprar</a>"
+						+ "<a href='./jogo.xhtml?id="+ j.getSteamAppid() +"' class='btn btn-primary'>Ver Mais</a>"
 						+ "</div>"
 						+ "</div>";
 			} catch (Exception e) {
@@ -55,12 +55,12 @@ public class Html {
 	public static String cardError(Exception e) {
 		return "<div class='card mr-2'>"
 				+ "<div class='text-center'>"
-				+ "<i class='far fa-dizzy text-dark card-img-top'></i>"
+				+ "<i class='far fa-dizzy card-img-top'></i>"
 				+ "</div>"
-				+ "<div class='card-body text-dark'>"
+				+ "<div class='card-body'>"
 				+ "<h5 class='card-title'>Ocorreu um erro</h5>"
 				+ "<div class='card-text'>" + e.getMessage() + "</div>"
-				+ "<a href='/404/index.html' class='btn btn-primary'>Comprar</a>"
+				+ "<a href='./404/index.html' class='btn btn-primary'>Ver Mais</a>"
 				+ "</div>"
 				+ "</div>";
 	}
