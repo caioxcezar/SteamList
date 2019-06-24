@@ -2,7 +2,7 @@ body {
 	background-color: #121212 !important;
 }
 .bg-dark {
-	background-color: #282828 !important;
+	background-color: rgba(42, 42, 46) !important;
 }
 .destaques {
   margin-top: 60px;
@@ -16,7 +16,7 @@ body {
 /*   border: 2px solid rgb(134, 6, 126); */
 }
 #formLogin{
-	position: absolute;
+	position: fixed;
   padding-top: 22px;
   background-color:rgba(42, 42, 46,0.9);
   border:purple solid transparent;
@@ -47,9 +47,9 @@ body {
 .card {
   background-color: #2a2a2e;
 }
-.bg-dark {
-  background-color: rgba(42, 42, 46) !important;
-}
 .maisvendidos .card {
   min-width: 250px;
+}
+.nav-tabs .nav-link {
+	color: #495057 !important;
 }

@@ -1,5 +1,4 @@
 package Models;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FullGame {

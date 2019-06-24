@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="WEB-INF/templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">Área do Usuário #{usuarioController.usr.nome}</ui:define>
+	<ui:define name="content">
+		<div class="container mt-2" style="min-height: calc(100vh - 135px);">
+			<h:outputText value="#{usuarioController.mensagem}" escape="false" />
+			<h3>Bem Vindo #{usuarioController.usr.nome}</h3>
+			<h:form>
+				<h:commandButton action="#{usuarioController.sair()}" value="Sair" class="btn btn-danger mb-2"></h:commandButton>
+				<p:dataScroller value="#{usuarioController.listaJogos}" var="jogo"
+						chunkSize="10">
+						<f:facet name="header">
+							<h3>Seus Jogos #{buscaController.parametro}</h3>
+						</f:facet>
+						<h:panelGrid columns="2" style="width:100%">
+							<p:outputPanel>
+							<a href="jogo.xhtml?id=#{jogo.id}">
+								<h:panelGrid columns="2" cellpadding="5">
+									
+										<h:outputText value="ID:" />
+										<h:outputText value="#{jogo.id}" style="font-weight: bold" />
+		
+										<h:outputText value="Nome:" />
+										<h:outputText value="#{jogo.nome}" style="font-weight: bold" />
+									
+								</h:panelGrid>
+								</a>
+							</p:outputPanel>
+							
+						</h:panelGrid>
+					</p:dataScroller>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

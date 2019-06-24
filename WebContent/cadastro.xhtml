@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="WEB-INF/templates/master.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Cadastro de Usuário</ui:define>
+	<ui:define name="content">
+		<div class="container mt-2" style="min-height: calc(100vh - 135px);">
+			<h:outputText value="#{cadastroController.mensagem}" escape="false"></h:outputText>
+			<h:form>
+				<h3>Cadastro de Usuário</h3>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="Email">Email</label>
+						<h:inputText class="form-control" placeholder="Email" value="#{cadastroController.email}"></h:inputText>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="Password">Password</label>
+						<h:inputSecret value="#{cadastroController.senha}" class="form-control" placeholder="Senha"></h:inputSecret>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Nome">Nome</label>
+					<h:inputText value="#{cadastroController.nome}" class="form-control" placeholder="Digite um nome "></h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="Apelido">Apelido</label>
+					<h:inputText value="#{cadastroController.apelido}" class="form-control" placeholder="Digite um apelido "></h:inputText>
+				</div>
+				<div class="form-group">
+					<div class="form-check">
+						<h:selectBooleanCheckbox value="#{cadastroController.visibilidadeNome}" class="form-check-input"></h:selectBooleanCheckbox>
+							<label class="form-check-label" for="gridCheck"> Deseja que seu nome seja visivel para outros players </label>
+					</div>
+				</div>
+				<h:commandButton action="#{cadastroController.cadastrar()}" value="Cadstrar" class="btn btn-primary"></h:commandButton>
+			</h:form>
+			</div>
+	</ui:define>
+</ui:composition>

@@ -1,60 +1,170 @@
 package Controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.protobuf.TextFormat.ParseException;
-
+import Models.Categoria;
+import Models.FullGame;
 import Models.Imagem;
-import Models.Jogo;
+import Models.Usuario;
+import Models.appdetails;
+import Utils.Crud;
 import Utils.JsonUtils;
 
-@ManagedBean(name="jogoController")
-public class JogoController {
-	private Jogo jogo;
-	public Jogo getJogo() {
+@ManagedBean(name = "jogoController")
+@SessionScoped
+public class JogoController implements Serializable {
+	private static final long serialVersionUID = -3619137709819326061L;
+	private appdetails jogo;
+	private String compra;
+	private String mensagem;
+	@ManagedProperty(value="#{loginController}")
+	private LoginController service;
+	private ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+	private int appId;
+
+	public appdetails getJogo() {
 		return jogo;
 	}
 
-	public void setJogo(Jogo jogo) {
+	public void setJogo(appdetails jogo) {
 		this.jogo = jogo;
 	}
 
-	private ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-	private int appId;
-	private String offline = "{\"type\":\"game\",\"name\":\"Terraria\",\"steam_appid\":105600,\"required_age\":0,\"is_free\":false,\"controller_support\":\"full\",\"dlc\":[409210],\"detailed_description\":\"Cave, lute, explore, construa! Nada \\u00e9 imposs\\u00edvel nesse jogo de aventura cheio de a\\u00e7\\u00e3o. O mundo \\u00e9 a sua tela de pintar e o ch\\u00e3o em si \\u00e9 a sua tinta. <br>Pegue suas ferramentas e v\\u00e1! Fa\\u00e7a novas armas para lutar contra uma variedades de inimigos em numerosos biomas. Cave profundamente no subsolo para encontrar acess\\u00f3rios, dinheiro e outras coisas \\u00fateis. Re\\u00fana recursos para criar tudo o que voc\\u00ea precisa para tornar o mundo o seu pr\\u00f3prio. Construa uma casa, um forte ou at\\u00e9 mesmo um castelo. Pessoas v\\u00e3o se mudar e viver l\\u00e1 e talvez at\\u00e9 vender para voc\\u00ea diferentes mercadorias para ajud\\u00e1-lo em sua jornada.<br>Mas cuidado, h\\u00e1 ainda mais desafios \\u00e0 sua espera... Voc\\u00ea est\\u00e1 \\u00e0 altura da tarefa?<br><strong>Principais caracter\\u00edsticas:<\\/strong><br><ul class=\\\"bb_ul\\\"><li>Sandbox Play (caracter\\u00edsticas de mundo livre)<br><\\/li><li>Mundos criados aleatoriamente<br><\\/li><li>Atualiza\\u00e7\\u00f5es gratuitas de conte\\u00fado<\\/li><\\/ul>\",\"about_the_game\":\"Cave, lute, explore, construa! Nada \\u00e9 imposs\\u00edvel nesse jogo de aventura cheio de a\\u00e7\\u00e3o. O mundo \\u00e9 a sua tela de pintar e o ch\\u00e3o em si \\u00e9 a sua tinta. <br>Pegue suas ferramentas e v\\u00e1! Fa\\u00e7a novas armas para lutar contra uma variedades de inimigos em numerosos biomas. Cave profundamente no subsolo para encontrar acess\\u00f3rios, dinheiro e outras coisas \\u00fateis. Re\\u00fana recursos para criar tudo o que voc\\u00ea precisa para tornar o mundo o seu pr\\u00f3prio. Construa uma casa, um forte ou at\\u00e9 mesmo um castelo. Pessoas v\\u00e3o se mudar e viver l\\u00e1 e talvez at\\u00e9 vender para voc\\u00ea diferentes mercadorias para ajud\\u00e1-lo em sua jornada.<br>Mas cuidado, h\\u00e1 ainda mais desafios \\u00e0 sua espera... Voc\\u00ea est\\u00e1 \\u00e0 altura da tarefa?<br><strong>Principais caracter\\u00edsticas:<\\/strong><br><ul class=\\\"bb_ul\\\"><li>Sandbox Play (caracter\\u00edsticas de mundo livre)<br><\\/li><li>Mundos criados aleatoriamente<br><\\/li><li>Atualiza\\u00e7\\u00f5es gratuitas de conte\\u00fado<\\/li><\\/ul>\",\"short_description\":\"Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game. Four Pack also available!\",\"supported_languages\":\"Ingl\\u00eas, Franc\\u00eas, Italiano, Alem\\u00e3o, Espanhol (Espanha), Polon\\u00eas, Portugu\\u00eas (Brasil), Russo, Chin\\u00eas simplificado\",\"header_image\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/header.jpg?t=1548954652\",\"website\":\"http:\\/\\/www.terraria.org\\/\",\"pc_requirements\":{\"minimum\":\"<h2 class=\\\"bb_tag\\\"><strong>REQUIRED<\\/strong><\\/h2><ul class=\\\"bb_ul\\\"><li><strong>OS: Windows Xp, Vista, 7, 8\\/8.1, 10<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: 2.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 2.5GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 128mb Video Memory, capable of Shader Model 2.0+<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>DirectX\\u00ae: 9.0c or Greater<\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\",\"recommended\":\"<h2 class=\\\"bb_tag\\\"><strong>RECOMMENDED<\\/strong><\\/h2><ul class=\\\"bb_ul\\\"><li><strong>OS: Windows 7, 8\\/8.1, 10<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: Dual Core 3.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 4GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 256mb Video Memory, capable of Shader Model 2.0+<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>DirectX\\u00ae: 9.0c or Greater<\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\"},\"mac_requirements\":{\"minimum\":\"<h2 class=\\\"bb_tag\\\"><strong>REQUIRED<\\/strong><\\/h2><ul class=\\\"bb_ul\\\"><li><strong>OS: OSX 10.9.5 - 10.11.6<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: 2.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 2.5GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 128mb Video Memory, capable of OpenGL 3.0+ support (2.1 with ARB extensions acceptable<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\",\"recommended\":\"<h2 class=\\\"bb_tag\\\"><strong>RECOMMENDED<\\/strong><\\/h2><ul class=\\\"bb_ul\\\"><li><strong>OS: OSX 10.9.5 - 10.11.6<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: Dual Core 3.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 4GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 256mb Video Memory, capable of OpenGL 3.0+ support (2.1 with ARB extensions acceptable<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\"},\"linux_requirements\":{\"minimum\":\"<h2 class=\\\"bb_tag\\\"><strong>REQUIRED<\\/strong><\\/h2>LINUX<br><ul class=\\\"bb_ul\\\"><li><strong>OS: Ubuntu 14.04 LTS<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: 2.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 2.5GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 128mb Video Memory, capable of OpenGL 3.0+ support (2.1 with ARB extensions acceptable<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\",\"recommended\":\"<h2 class=\\\"bb_tag\\\"><strong>RECOMMENDED<\\/strong><\\/h2>LINUX<br><ul class=\\\"bb_ul\\\"><li><strong>OS: Ubuntu 14.04 LTS<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Processor: Dual Core 3.0 Ghz<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Memory: 4GB<\\/strong><br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Hard Disk Space: 200MB <\\/strong> \\t<br>\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><li><strong>Video Card: 256mb Video Memory, capable of OpenGL 3.0+ support (2.1 with ARB extensions acceptable<\\/strong> <br>\\t\\t\\t\\t\\t\\t\\t\\t\\t<\\/li><\\/ul>\"},\"developers\":[\"Re-Logic\"],\"publishers\":[\"Re-Logic\"],\"price_overview\":{\"currency\":\"BRL\",\"initial\":1999,\"final\":1999,\"discount_percent\":0,\"initial_formatted\":\"\",\"final_formatted\":\"R$ 19,99\"},\"packages\":[8183,356628,8184],\"package_groups\":[{\"name\":\"default\",\"title\":\"Comprar Terraria\",\"description\":\"\",\"selection_text\":\"Selecione uma op\\u00e7\\u00e3o de compra\",\"save_text\":\"\",\"display_type\":0,\"is_recurring_subscription\":\"false\",\"subs\":[{\"packageid\":8183,\"percent_savings_text\":\"\",\"percent_savings\":0,\"option_text\":\"Terraria - R$ 19,99\",\"option_description\":\"\",\"can_get_free_license\":\"0\",\"is_free_license\":false,\"price_in_cents_with_discount\":1999},{\"packageid\":356628,\"percent_savings_text\":\"\",\"percent_savings\":0,\"option_text\":\"Terraria - Commercial License - R$ 20,69\",\"option_description\":\"\",\"can_get_free_license\":\"0\",\"is_free_license\":false,\"price_in_cents_with_discount\":2069},{\"packageid\":8184,\"percent_savings_text\":\"\",\"percent_savings\":0,\"option_text\":\"Terraria 4-Pack - R$ 55,99\",\"option_description\":\"\",\"can_get_free_license\":\"0\",\"is_free_license\":false,\"price_in_cents_with_discount\":5599}]}],\"platforms\":{\"windows\":true,\"mac\":true,\"linux\":true},\"metacritic\":{\"score\":83,\"url\":\"https:\\/\\/www.metacritic.com\\/game\\/pc\\/terraria?ftag=MCD-06-10aaa1f\"},\"categories\":[{\"id\":2,\"description\":\"Um jogador\"},{\"id\":1,\"description\":\"Multijogador\"},{\"id\":36,\"description\":\"Multijogador online\"},{\"id\":9,\"description\":\"Cooperativo\"},{\"id\":38,\"description\":\"Cooperativo online\"},{\"id\":22,\"description\":\"Conquistas Steam\"},{\"id\":28,\"description\":\"Compatibilidade total com controle\"},{\"id\":29,\"description\":\"Cartas Colecion\\u00e1veis Steam\"},{\"id\":23,\"description\":\"Nuvem Steam\"}],\"genres\":[{\"id\":\"1\",\"description\":\"A\\u00e7\\u00e3o\"},{\"id\":\"25\",\"description\":\"Aventura\"},{\"id\":\"23\",\"description\":\"Indie\"},{\"id\":\"3\",\"description\":\"RPG\"}],\"screenshots\":[{\"id\":0,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_8c03886f214d2108cafca13845533eaa3d87d83f.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_8c03886f214d2108cafca13845533eaa3d87d83f.1920x1080.jpg?t=1548954652\"},{\"id\":1,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_ae168a00ab08104ba266dc30232654d4b3c919e5.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_ae168a00ab08104ba266dc30232654d4b3c919e5.1920x1080.jpg?t=1548954652\"},{\"id\":2,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_9edd98caaf9357c2f40758f354475a56e356e8b0.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_9edd98caaf9357c2f40758f354475a56e356e8b0.1920x1080.jpg?t=1548954652\"},{\"id\":3,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_75ea9a7e39eb34b40efa1e6dfd2536098dc4734b.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_75ea9a7e39eb34b40efa1e6dfd2536098dc4734b.1920x1080.jpg?t=1548954652\"},{\"id\":4,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_782374517c1792debd74d24856203b876eba3a5d.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_782374517c1792debd74d24856203b876eba3a5d.1920x1080.jpg?t=1548954652\"},{\"id\":5,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_04dd9f0a5773b686a452ba480b951f83b3ed5061.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_04dd9f0a5773b686a452ba480b951f83b3ed5061.1920x1080.jpg?t=1548954652\"},{\"id\":6,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_26c4a091c482be28efe1ecf4dfb498273e5a9107.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_26c4a091c482be28efe1ecf4dfb498273e5a9107.1920x1080.jpg?t=1548954652\"},{\"id\":7,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_830aa37570410b80947636785ff62096c0bf276f.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_830aa37570410b80947636785ff62096c0bf276f.1920x1080.jpg?t=1548954652\"},{\"id\":8,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_0d805c81ef85dfd2a7a8b25da96f8066017fb3b3.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_0d805c81ef85dfd2a7a8b25da96f8066017fb3b3.1920x1080.jpg?t=1548954652\"},{\"id\":9,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_b28125b8b8ccacbbb38a3ab4ceaf406ec94d98a4.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_b28125b8b8ccacbbb38a3ab4ceaf406ec94d98a4.1920x1080.jpg?t=1548954652\"},{\"id\":10,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_900453507c3eb3df55175fb1362869cc75203594.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_900453507c3eb3df55175fb1362869cc75203594.1920x1080.jpg?t=1548954652\"},{\"id\":11,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a1dbbda90ea1669da35cf277e65b5191565bcb12.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a1dbbda90ea1669da35cf277e65b5191565bcb12.1920x1080.jpg?t=1548954652\"},{\"id\":12,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a34d1ebdc99634e012ea19759c12822802164b0e.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a34d1ebdc99634e012ea19759c12822802164b0e.1920x1080.jpg?t=1548954652\"},{\"id\":13,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_6f57075d0d8f9d2fd963b74f9a4526bbf91aab10.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_6f57075d0d8f9d2fd963b74f9a4526bbf91aab10.1920x1080.jpg?t=1548954652\"},{\"id\":14,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_ab3143003094dec454c5a76cc7d7948f17ca7517.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_ab3143003094dec454c5a76cc7d7948f17ca7517.1920x1080.jpg?t=1548954652\"},{\"id\":15,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_1a091473c0b53e98d7a0708dd3ec0978dd56ba45.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_1a091473c0b53e98d7a0708dd3ec0978dd56ba45.1920x1080.jpg?t=1548954652\"},{\"id\":16,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a81bfb762197b0aafc207274a708d79e7c39e45f.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_a81bfb762197b0aafc207274a708d79e7c39e45f.1920x1080.jpg?t=1548954652\"},{\"id\":17,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_fefd40cad50a10c09f928f9dc3f9017f8fe50213.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_fefd40cad50a10c09f928f9dc3f9017f8fe50213.1920x1080.jpg?t=1548954652\"},{\"id\":18,\"path_thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_fd3a47380882311f6ff80cb2d4491d1de4af9e8b.600x338.jpg?t=1548954652\",\"path_full\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/ss_fd3a47380882311f6ff80cb2d4491d1de4af9e8b.1920x1080.jpg?t=1548954652\"}],\"movies\":[{\"id\":2040428,\"name\":\"Terraria 1.3 Trailer\",\"thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2040428\\/movie.293x165.jpg?t=1447376855\",\"webm\":{\"480\":\"http:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2040428\\/movie480.webm?t=1447376855\",\"max\":\"http:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2040428\\/movie_max.webm?t=1447376855\"},\"highlight\":true},{\"id\":2029566,\"name\":\"Terraria 1.2 Trailer\",\"thumbnail\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2029566\\/movie.293x165.jpg?t=1447358964\",\"webm\":{\"480\":\"http:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2029566\\/movie480.webm?t=1447358964\",\"max\":\"http:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/2029566\\/movie_max.webm?t=1447358964\"},\"highlight\":true}],\"recommendations\":{\"total\":199825},\"achievements\":{\"total\":88,\"highlighted\":[{\"name\":\"Timber!!\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/0fbb33098c9da39d1d4771d8209afface9c46e81.jpg\"},{\"name\":\"No Hobo\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/65bbc5ea6a030b963d9a06e5e1b315c3872837a3.jpg\"},{\"name\":\"Stop! Hammer Time!\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/4760436e9973519098bb2cc419339d24e56af139.jpg\"},{\"name\":\"Ooo! Shiny!\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/57b929ffd1a732ffc49abc6c53387e08bac4cbbb.jpg\"},{\"name\":\"Heart Breaker\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/8243e4a0f7f803cd06cf37d64d11e04697afe30c.jpg\"},{\"name\":\"Heavy Metal\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/f727271437793b278c809a067fa2334ea2846f34.jpg\"},{\"name\":\"I Am Loot!\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/6705287adc42e2741d632c2d714424b2aa3e5716.jpg\"},{\"name\":\"Star Power\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/738ca7765e32895918979d31d600d19254b14190.jpg\"},{\"name\":\"Hold on Tight!\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/0e2a5e080563ce9c30cf3b45dd155d18640f0bf6.jpg\"},{\"name\":\"Eye on You\",\"path\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/apps\\/105600\\/b10b068163125e13444e2cdb145c1a200c7ad607.jpg\"}]},\"release_date\":{\"coming_soon\":false,\"date\":\"16\\/mai\\/2011\"},\"support_info\":{\"url\":\"\",\"email\":\"support@terraria.org\"},\"background\":\"https:\\/\\/steamcdn-a.akamaihd.net\\/steam\\/apps\\/105600\\/page_bg_generated_v6b.jpg?t=1548954652\",\"content_descriptors\":{\"ids\":[],\"notes\":null}}";
-
-	public String getOffline() {
-		return offline;
+	public String getCompra() {
+		return compra;
 	}
-	
+
+	public void setCompra(String compra) {
+		this.compra = compra;
+	}
+
+	public ExternalContext getExternalContext() {
+		return externalContext;
+	}
+
+	public void setExternalContext(ExternalContext externalContext) {
+		this.externalContext = externalContext;
+	}
+
+	public int getAppId() {
+		return appId;
+	}
+
+	public void setAppId(int appId) {
+		this.appId = appId;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+
+	public LoginController getService() {
+		return service;
+	}
+
+	public void setService(LoginController service) {
+		this.service = service;
+	}
+
 	public JogoController() {
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 		try {
 			appId = Integer.parseInt(request.getParameter("id"));
 			jogo = JsonUtils.getJogo(appId);
-			//jogo = JsonUtils.getJogoOffline(offline);
-		} catch (NumberFormatException | IOException e) {
+		} catch (Exception e) {
 			try {
-				externalContext.dispatch("./index.xhtml");
+				externalContext.dispatch("./404/index.html");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
-	
+
+	public void comprar() {
+		if (service.isLogado() == false) {
+			mensagem = "<div class=\"alert alert-danger m-2\" rule=\"alert\">";
+			mensagem += "Por favor faça login ou cadastro</div>";
+		} else {
+			try {
+				Usuario usr = service.getUsr();
+				FullGame fg = (FullGame) Crud.buscar(appId, FullGame.class);
+				List<FullGame> listaJogos = usr.getJogos().stream().collect(Collectors.toList());
+				boolean jaPossui = false;
+				for (FullGame fullGame : listaJogos) {
+					if (fullGame.getId() == appId) {
+						jaPossui = true;
+					}
+				}
+				if (jaPossui == true) {
+					mensagem = "<div class=\"alert alert-danger m-2\" rule=\"alert\">";
+					mensagem += "Você já possui o game</div>";
+				} else {
+					listaJogos.add(fg);
+					usr.setJogos(listaJogos.stream().collect(Collectors.toSet()));
+					Crud.atualizar(usr);
+					mensagem = "<div class=\"alert alert-primary m-2\" rule=\"alert\">";
+					mensagem += "Adquirido com sucesso</div>";
+				}
+			} catch (Exception e) {
+				mensagem = "<div class=\"alert alert-primary m-2\" rule=\"alert\">";
+				mensagem += "Erro ao realizar a compra por favor tente novamente</div>";
+			}
+		}
+	}
+
+	public String getCategorias() {
+		String retorno = "";
+		for (Categoria categoria : jogo.getCategorias()) {
+			retorno += "<div class='card-text'>" + categoria.getDescricao() + "</div>";
+		}
+		return retorno;
+	}
+
+	public String getGeneros() {
+		String retorno = "";
+		for (Categoria categoria : jogo.getGeneros()) {
+			retorno += "<span class='badge badge-primary mr-1'>" + categoria.getDescricao() + "</span>";
+		}
+		return retorno;
+	}
+
+	public String getDistribuidoras() {
+		String retorno = "";
+		for (String distribuidora : jogo.getDistribuidoras()) {
+			retorno += distribuidora + ", ";
+		}
+		return retorno.substring(0, (retorno.length() - 2));
+	}
+
+	public String getDesenvolvedoras() {
+		String retorno = "";
+		for (String desenvolvedora : jogo.getDesenvolvedoras()) {
+			retorno += desenvolvedora + ", ";
+		}
+		return retorno.substring(0, (retorno.length() - 2));
+	}
+
 	public String carousel() {
 		String resultado = "<div class=\"carouselJogo\">";
-		for(Imagem img: jogo.getImagens()) {
-				resultado += "<div>"
-						+ "		<div class='jogo-container-bg' style=\"background-image: url('" + img.getImagemCompleta() + "');\">\r\n" + 
-						"		</div>" +
-						"		<img src='" + img.getImagemCompleta() + "' class='img-fluid container jogo-container-img'></img>" + 
-						"</div>";
+		for (Imagem img : jogo.getImagens()) {
+			resultado += "<div>" + "		<div class='jogo-container-bg' style=\"background-image: url('"
+					+ img.getImagemCompleta() + "');\">\r\n" + "		</div>" + "		<img src='"
+					+ img.getImagemCompleta() + "' class='img-fluid container jogo-container-img'></img>" + "</div>";
 		}
 		resultado += "</div>";
 		return resultado;

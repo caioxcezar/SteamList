@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="Models">
+	<class name="Usuario" table="usuario">
+		<id name="id">
+			<generator class="increment"></generator>
+		</id>
+		<property name="email" unique="true" not-null="true" length="150"/>
+		<property name="nome" />
+		<property name="apelido" />
+		<property name="visibilidadeNome" column="visibilidade_nome" />
+		<property name="senha" />
+		<property name="salt" />
+		<set name="Jogos" table="usuarios_jogos" inverse="false">
+			<key column="jogo_usuario_id" />
+			<many-to-many class="Models.FullGame" fetch="select" column="jogo_id" />
+		</set>
+	</class>
+</hibernate-mapping>

@@ -10,15 +10,30 @@
 		<div class="container-flex">
 			<h:outputText value="#{jogoController.carousel()}" escape="false" />
 			<div class="container card">
+				<h:outputText value="#{jogoController.mensagem}" escape="false" />
 				<div class="row">
-					<div class="col-lg-4 p-2">
+					<div class="col-lg-4 p-2 text-center">
 						<img src="#{jogoController.jogo.getImagemCabecalho()}"
-							class="img-fluid rounded"></img>
+							class="img-fluid rounded">
+						</img>
 					</div>
-					<div class="col-lg-7">
+					<div class="col-lg-8">
+						<h:outputText
+								value="#{jogoController.getGeneros()}"
+								escape="false" />
 						<h3>#{jogoController.jogo.getNome()}</h3>
-						#{jogoController.jogo.getPreco().getFinalFormatado()}
-						<p>#{jogoController.jogo.getDescricaoCurta()}</p>
+						<h:outputText value="#{jogoController.compra}" escape="false" />
+						<h:form>
+							<div class="row">
+								<h4 style="width: max-content;" class="bg-primary p-2 rounded m-0 #{ jogoController.jogo.getPreco().getDesconto() == 0 || jogoController.jogo.getPreco().getDesconto() == null ? 'd-none' : 'd-block'}">#{jogoController.jogo.getPreco().getDesconto()}%</h4>
+								<div class="mr-2 ml-2" style="width: max-content;">
+								<strike><small>#{jogoController.jogo.getPreco().getInicialFormatado()}</small></strike>
+								<div>#{jogoController.jogo.getPreco().getFinalFormatado()}</div>
+								</div>
+								<h:commandButton action="#{jogoController.comprar()}" class="btn btn-primary" value="#{jogo.isGratis() == true ? 'Grátis' : 'Comprar' }"></h:commandButton>
+							</div>
+						</h:form>
+						<h:outputText value="#{jogoController.jogo.getDescricaoCurta()}" escape="false" />
 					</div>
 				</div>
 			</div>
@@ -30,85 +45,124 @@
 							escape="false" />
 					</div>
 					<div class="col-lg-4">
-						<div class="accordion" id="accordionExample">
-							<div class="card">
-								<div class="card-header" id="headingOne">
-									<h2 class="mb-0">
-										<button class="btn btn-link" type="button"
-											data-toggle="collapse" data-target="#collapseOne"
-											aria-expanded="true" aria-controls="collapseOne">
-											Requisitos Windows</button>
-									</h2>
-								</div>
-
-								<div id="collapseOne" class="collapse show"
-									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<div class="card-body">
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosWindows().getRecomendado()}"
-											escape="false" />
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosWindows().getMinimo()}"
-											escape="false" />
-									</div>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header" id="headingTwo">
-									<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button"
-											data-toggle="collapse" data-target="#collapseTwo"
-											aria-expanded="false" aria-controls="collapseTwo">
-											Requisitos Linux</button>
-									</h2>
-								</div>
-								<div id="collapseTwo" class="collapse"
-									aria-labelledby="headingTwo" data-parent="#accordionExample">
-									<div class="card-body">
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosLinux().getRecomendado()}"
-											escape="false" />
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosLinux().getMinimo()}"
-											escape="false" />
-									</div>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header" id="headingThree">
-									<h2 class="mb-0">
-										<button class="btn btn-link collapsed" type="button"
-											data-toggle="collapse" data-target="#collapseThree"
-											aria-expanded="false" aria-controls="collapseThree">
-											Requisitos Mac</button>
-									</h2>
-								</div>
-								<div id="collapseThree" class="collapse"
-									aria-labelledby="headingThree" data-parent="#accordionExample">
-									<div class="card-body">
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosMac().getRecomendado()}"
-											escape="false" />
-										<h:outputText
-											value="#{jogoController.jogo.getRequisitosMac().getMinimo()}"
-											escape="false" />
-									</div>
-								</div>
+						<div class="card mt-2 #{(jogoController.jogo.getMetacritic()) == null?'d-none':'d-block'}">
+							<a href="#{jogoController.jogo.getMetacritic().getUrl()}"
+								target="_blank" class="text-white text-decoration-none">
+								<h5 class="m-0">
+									<label class="p-4 rounded m-0 bg-success">#{jogoController.jogo.getMetacritic().getPontuacao()}</label>
+									Metacritic
+								</h5>
+							</a>
+						</div>
+						<div class="card mt-2">
+							<div class="card-header">Linguagens Suportadas</div>
+							<div class="card-body">
+								<h:outputText
+								value="#{jogoController.jogo.getLinguasSuportadas()}"
+								escape="false" />
 							</div>
 						</div>
-						<div class="card">
-							<a href="#{jogoController.jogo.getMetacritic().getUrl()}"> <label>#{jogoController.jogo.getMetacritic().getPontuacao()}</label>
-								<h5>Metacritic</h5>
-							</a>
-
+						<div class="card mt-2">
+							<div class="card-header">Categorias</div>
+							<div class="card-body">
+								<h:outputText
+								value="#{jogoController.getCategorias()}"
+								escape="false" />
+							</div>
+						</div>
+						<div class="card mt-2">
+							<div class="card-header">Informação</div>
+							<div class="card-body">
+								 <div class="card-text">Desenvolvedor: #{jogoController.getDesenvolvedoras()}</div>
+								 <div class="card-text">Distribuidora: #{jogoController.getDistribuidoras()}</div>
+								 <div class="card-text">Data de lançamento: #{jogoController.jogo.getDataLancamento().getData()}</div>
+							</div>
 						</div>
 					</div>
 
 				</div>
+				<ul class="nav nav-tabs mt-2">
+					<li class="nav-item"><a id="tabWin" class="nav-link active"
+						onclick="requisitos('windows')">Requisitos Windows</a></li>
+					<li class="nav-item"><a id="tabLin" class="nav-link"
+						onclick="requisitos('linux')">Requisitos Linux</a></li>
+					<li class="nav-item"><a id="tabMac" class="nav-link"
+						onclick="requisitos('mac')">Requisitos Mac</a></li>
+				</ul>
+				<div id="windows" style="display: none;">
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosWindows().getRecomendado()}"
+						escape="false" />
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosWindows().getMinimo()}"
+						escape="false" />
+				</div>
+				<div id="linux" style="display: none;">
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosLinux().getRecomendado()}"
+						escape="false" />
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosLinux().getMinimo()}"
+						escape="false" />
+				</div>
+				<div id="mac" style="display: none;">
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosMac().getRecomendado()}"
+						escape="false" />
+					<h:outputText
+						value="#{jogoController.jogo.getRequisitosMac().getMinimo()}"
+						escape="false" />
+				</div>
 			</div>
-			
-			
 		</div>
-
+		<script>
+		window.onload = requisitos("windows")
+		function requisitos(sistema) {
+			switch(sistema){
+			case 'windows':
+				winToggle(true)
+				linuxToggle(false)
+				macToggle(false)
+				break;
+			case 'linux':
+				winToggle(false)
+				linuxToggle(true)
+				macToggle(false)
+				break;
+			case 'mac':
+				winToggle(false)
+				linuxToggle(false)
+				macToggle(true)
+				break;
+			}
+		}
+		function winToggle(on) {
+			if (on) {
+				tabWin.classList.add("active");
+				windows.style.display = "block";
+			}else{
+				tabWin.classList.remove("active");
+				windows.style.display = "none";
+			}
+		}
+		function linuxToggle(on) {
+			if (on) {
+				tabLin.classList.add("active");
+				linux.style.display = "block";
+			}else{
+				tabLin.classList.remove("active");
+				linux.style.display = "none";
+			}
+		}
+		function macToggle(on) {
+			if (on) {
+				tabMac.classList.add("active");
+				mac.style.display = "block";
+			}else{
+				tabMac.classList.remove("active");
+				mac.style.display = "none";
+			}
+		}
+		</script>
 	</ui:define>
 </ui:composition>

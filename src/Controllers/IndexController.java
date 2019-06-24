@@ -1,12 +1,17 @@
 package Controllers;
 
+import java.io.Serializable;
+
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import Models.Jogo;
 import Utils.Html;
 import Utils.JsonUtils;
 
 @ManagedBean(name="indexController")
-public class IndexController {
+@ApplicationScoped
+public class IndexController implements Serializable {
+	private static final long serialVersionUID = -234087942137454037L;
 	private String destaques;
 	private String maisVendidos;
 	private String maisDestaques;

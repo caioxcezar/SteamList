@@ -47,7 +47,17 @@
     	<artifactId>jackson-core</artifactId>
     	<version>2.9.8</version>
 	</dependency>
-	<!-- Dependences -->
+	<dependency>
+  	<groupId>com.vdurmont</groupId>
+  		<artifactId>emoji-java</artifactId>
+  		<version>4.0.0</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.primefaces</groupId>
+    	<artifactId>primefaces</artifactId>
+    	<version>7.0</version>
+	</dependency>
+	<!-- Faces Dependences -->
 	  	<dependency>
   		<groupId>com.sun.faces</groupId>
   		<artifactId>jsf-api</artifactId>
