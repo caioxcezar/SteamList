@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -22,7 +21,7 @@ import Utils.Crud;
 import Utils.JsonUtils;
 
 @ManagedBean(name = "jogoController")
-@SessionScoped
+@ViewScoped
 public class JogoController implements Serializable {
 	private static final long serialVersionUID = -3619137709819326061L;
 	private appdetails jogo;
@@ -88,7 +87,7 @@ public class JogoController implements Serializable {
 			jogo = JsonUtils.getJogo(appId);
 		} catch (Exception e) {
 			try {
-				externalContext.dispatch("./404/index.html");
+				externalContext.dispatch("jogo404.xhtml");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

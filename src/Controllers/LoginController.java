@@ -1,11 +1,16 @@
 package Controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import Models.Usuario;
 import Utils.Crud;
@@ -22,9 +27,15 @@ public class LoginController implements Serializable {
 	private boolean logado = false;
 	private String mensagem = "";
 	private Usuario usr = new Usuario();
-	public void sair() {
-		logado = false;
-		usr = new Usuario();
+	public String sair() throws IOException {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+        context.getExternalContext().getSessionMap().remove("#{loginController}");
+        
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance()
+        		.getExternalContext().getSession(true);
+        session.invalidate();
+
+    	return "index";
 	}
 	public void logar() {
 		List<Usuario> usrs = new ArrayList<Usuario>();

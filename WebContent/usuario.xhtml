@@ -13,7 +13,7 @@
 			<h:outputText value="#{usuarioController.mensagem}" escape="false" />
 			<h3>Bem Vindo #{usuarioController.usr.nome}</h3>
 			<h:form>
-				<h:commandButton action="#{usuarioController.sair()}" value="Sair" class="btn btn-danger mb-2"></h:commandButton>
+				<h:commandButton action="#{loginController.sair()}" value="Sair" class="btn btn-danger mb-2"></h:commandButton>
 				<p:dataScroller value="#{usuarioController.listaJogos}" var="jogo"
 						chunkSize="10">
 						<f:facet name="header">

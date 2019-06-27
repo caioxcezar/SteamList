@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+
+import org.hibernate.Session;
+
 import Models.Jogo;
 import Utils.Html;
 import Utils.JsonUtils;
@@ -45,6 +48,14 @@ public class IndexController implements Serializable {
     }
         
 	public String destaques(int[] ids) {
+		//Coloquei isso aqui para checar o banco de dados
+		Session sessao = null;
+		try {
+			sessao = Utils.HibernateUtil.getSessionFactory().openSession();
+			System.out.println("Conectou!");
+		} finally {
+			sessao.close();
+		}
 		String resultado = "<div class=\"destaques\">";
 		for(int id:ids) {
 			Jogo j = new Jogo();
